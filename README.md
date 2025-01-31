@@ -25,10 +25,10 @@ npm run dev
 
 -   Feature-Jump:  Jump functionality is added to the game, skier can jump by pressing down spacebar or going over jump-ramps,
     skier will escape rock obstacles by using this functionality, you can find a quick overview about implementation details:
-    -   A jump ramp added as a new type of obstacle, also an 'interactionType' added to the Obstacle type which will indicate what will be
-        skier interaction when a collision happen. Right now we have 'crash' and 'jump', which can be extended later easily
-    -   Skier will jump whenever ther is a 'jump' interaction with an obstacle or when space key is being pressed down
-    -   To enable playing animation for Skier as well, facilities for handling animations has been moved out of Rhino class, into the Entity class.
+    -   A jump ramp added as a new type of obstacle, also an `interactionType` added to the `Obstacle` type which will indicates what will be
+        skier interaction when a collision happen. Right now we have `crash` and `jump`, which can be extended later easily
+    -   Skier will jump whenever ther is a `jump` interaction with an obstacle or when space key is being pressed down
+    -   To enable playing animation for Skier as well, facilities for handling animations has been moved out of `Rhino` class, into the `Entity` class.
         This will ease up adding animation to existing entities (currently skier and rhino) + future cases (e.g. animated obstacles in the future)
 
 **Time Limit**
