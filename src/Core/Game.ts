@@ -2,7 +2,7 @@
  * The main game class. This initializes the game as well as runs the game/render loop and initial handling of input.
  */
 
-import { GAME_CANVAS, GAME_WIDTH, GAME_HEIGHT, IMAGES } from "../Constants";
+import { GAME_CANVAS, GAME_WIDTH, GAME_HEIGHT, IMAGES, KEYS, IMAGE_NAMES } from "../Constants";
 import { Canvas } from "./Canvas";
 import { ImageManager } from "./ImageManager";
 import { Position, Rect } from "./Utils";
@@ -29,6 +29,9 @@ export class Game {
     private imageManager!: ImageManager;
 
     private obstacleManager!: ObstacleManager;
+
+    private gameIsPaused! : boolean;
+    
 
     /**
      * The skier player
@@ -59,6 +62,7 @@ export class Game {
         this.skier = new Skier(0, 0, this.imageManager, this.obstacleManager, this.canvas);
         this.rhino = new Rhino(-500, -2000, this.imageManager, this.canvas);
 
+        this.gameIsPaused = false;
         this.calculateGameWindow();
         this.obstacleManager.placeInitialObstacles();
     }
@@ -80,13 +84,16 @@ export class Game {
 
     /**
      * The main game loop. Clear the screen, update the game objects and then draw them.
-     */
+       The loop for updating screen and game data will be paused if gameIsPaused flag is set to true
+    */
     run() {
-        this.canvas.clearCanvas();
+        if (!this.gameIsPaused)
+        {
+            this.canvas.clearCanvas();
 
-        this.updateGameWindow();
-        this.drawGameWindow();
-
+            this.updateGameWindow();
+            this.drawGameWindow();
+        }
         requestAnimationFrame(this.run.bind(this));
     }
 
@@ -128,11 +135,38 @@ export class Game {
 
         this.gameWindow = new Rect(left, top, left + GAME_WIDTH, top + GAME_HEIGHT);
     }
-
+   
+    /**
+     * Pause the game by setting relevant flag, and graying out game window
+     */
+    pauseGame(){
+        this.gameIsPaused = true;
+        this.canvas.grayOutCanvas();
+    }
+   
+    /**
+     * Un-Pause the game by setting relevant flag
+     */
+    unPauseGame(){
+        this.gameIsPaused = false;
+    }
+    
     /**
      * Handle keypresses and delegate to any game objects that might have key handling of their own.
-     */
+       Also checking for 'Escape' key to pause/unpause the game
+    */
     handleKeyDown(event: KeyboardEvent) {
+
+        if (event.key == KEYS.ESCAPE){
+            if (this.gameIsPaused)
+                this.unPauseGame();
+            else
+                this.pauseGame();
+        }
+
+        if (this.gameIsPaused)
+            return;
+
         let handled: boolean = this.skier.handleInput(event.key);
 
         if (handled) {

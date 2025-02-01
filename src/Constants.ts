@@ -9,7 +9,8 @@ export enum KEYS {
     RIGHT = "ArrowRight",
     UP = "ArrowUp",
     DOWN = "ArrowDown",
-    SPACE = " "
+    SPACE = " ",
+    ESCAPE = "Escape"
 }
 
 export enum IMAGE_NAMES {

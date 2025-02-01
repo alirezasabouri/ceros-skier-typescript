@@ -28,8 +28,14 @@ npm run dev
     -   A jump ramp added as a new type of obstacle, also an `interactionType` added to the `Obstacle` type which will indicates what will be
         skier interaction when a collision happen. Right now we have `crash` and `jump`, which can be extended later easily
     -   Skier will jump whenever ther is a `jump` interaction with an obstacle or when space key is being pressed down
-    -   To enable playing animation for Skier as well, facilities for handling animations has been moved out of `Rhino` class, into the `Entity` class.
-        This will ease up adding animation to existing entities (currently skier and rhino) + future cases (e.g. animated obstacles in the future)
+    -   To enable playing animation for Skier as well, animation facilities was refactored and moved out of `Rhino` class, into the `Entity` class.
+        This will prevents having redundant code and ease up adding animation to existing entities (currently skier and rhino) + future cases (e.g. animated obstacles in the future)
+
+-   Feature-PauseGame :  Game can be paused now by pressing `Escape` button on the keyboard:
+    -   A flag called `gameIsPaused` added to the Game class, which will be toggled by pressing `Escape` button
+    -   When `gameIsPaused` is set to true, main game loop will skip refreshing canvas and updating game data
+    -   New method called `grayOutCanvas` added to the `Canvas` class and is called when player is pausing the game, this will apply a gray overlay to the 
+
 
 **Time Limit**
 

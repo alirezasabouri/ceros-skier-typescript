@@ -76,6 +76,14 @@ export class Canvas {
     }
 
     /**
+     * Apply a gray overlay to the game window
+     */
+    grayOutCanvas(){
+        this.ctx.fillStyle = "rgb(214 214 214 / 50%)";
+        this.ctx.fillRect(0, 0, this.width, this.height);
+    }
+
+    /**
      * Set an offset so that everything drawn to the canvas is drawn relative to the coordinates passed in.
      */
     setDrawOffset(x: number, y: number) {
