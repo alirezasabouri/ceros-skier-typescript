@@ -58,11 +58,20 @@ export class Game {
         this.canvas = new Canvas(GAME_CANVAS, GAME_WIDTH, GAME_HEIGHT);
         this.imageManager = new ImageManager();
         this.obstacleManager = new ObstacleManager(this.imageManager, this.canvas);
+        this.gameIsPaused = false;
+        
+        this.initializeGameObjects();
+    }
+  
+    /**
+     * Initialize dynamic game objects (players, obstacles, etc.)
+     */
+    initializeGameObjects(){
+        this.obstacleManager.obstacles = [];
 
         this.skier = new Skier(0, 0, this.imageManager, this.obstacleManager, this.canvas);
-        this.rhino = new Rhino(-500, -2000, this.imageManager, this.canvas);
+        this.rhino = new Rhino(-500, -2000, this.imageManager, this.canvas);   
 
-        this.gameIsPaused = false;
         this.calculateGameWindow();
         this.obstacleManager.placeInitialObstacles();
     }
@@ -141,7 +150,7 @@ export class Game {
      */
     pauseGame(){
         this.gameIsPaused = true;
-        this.canvas.grayOutCanvas();
+        this.canvas.grayOutCanvas("-- PAUSED --");
     }
    
     /**
@@ -150,27 +159,42 @@ export class Game {
     unPauseGame(){
         this.gameIsPaused = false;
     }
-    
+
+     /**
+     * Restart the game by re-initializing game objects
+     */
+    resetGame(){
+        this.initializeGameObjects();
+    }
+
     /**
      * Handle keypresses and delegate to any game objects that might have key handling of their own.
        Also checking for 'Escape' key to pause/unpause the game
+       & 'Enter' key to restart the game when game is over
     */
     handleKeyDown(event: KeyboardEvent) {
 
-        if (event.key == KEYS.ESCAPE){
-            if (this.gameIsPaused)
-                this.unPauseGame();
-            else
-                this.pauseGame();
-        }
+        switch (event.key){
+            case KEYS.ESCAPE:
+                if (this.gameIsPaused)
+                    this.unPauseGame();
+                else
+                    this.pauseGame();
+                break;
+            case KEYS.ENTER:        
+                if (this.skier.isDead())
+                    this.resetGame();
+                break;
+            default:        
+                if (this.gameIsPaused)
+                    return;
 
-        if (this.gameIsPaused)
-            return;
+                let handled: boolean = this.skier.handleInput(event.key);
 
-        let handled: boolean = this.skier.handleInput(event.key);
-
-        if (handled) {
-            event.preventDefault();
+                if (handled) {
+                    event.preventDefault();
+                }
+                break;
         }
     }
 }

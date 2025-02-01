@@ -76,11 +76,18 @@ export class Canvas {
     }
 
     /**
-     * Apply a gray overlay to the game window
+     * Apply a gray overlay to the game window, optionally accept a text to display in the middle
      */
-    grayOutCanvas(){
+    grayOutCanvas(text? : string){
         this.ctx.fillStyle = "rgb(214 214 214 / 50%)";
         this.ctx.fillRect(0, 0, this.width, this.height);
+
+        if (text){
+            this.ctx.font = "18px monospace";
+            this.ctx.textAlign="center";     
+            this.ctx.fillStyle = "rgb(110 110 110 / 100%)";
+            this.ctx.fillText(text, this.width / 2, this.height/4);
+        }
     }
 
     /**

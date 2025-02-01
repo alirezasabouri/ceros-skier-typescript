@@ -114,3 +114,8 @@ We are looking forward to see what you come up with!!
     -   A flag called `gameIsPaused` added to the Game class, which will be toggled by pressing `Escape` button
     -   When `gameIsPaused` is set to true, main game loop will skip refreshing canvas and updating game data
     -   New method called `grayOutCanvas` added to the `Canvas` class and is called when player is pausing the game, this will apply a gray overlay to the 
+
+-   Feature-RestartGame :  Game can be restarted by pressing `Enter` when the game is over:
+    -   setting up game objects such as skier and rhino, arranging and placing obstacles, etc. moved to a seperate method called
+    `initializeGameObjects`, which will reset game dynamics and stats, and let the player start over again
+    -   `Escape` key is handled in the `Game` class now, it will call `resetGame()` only when game is over
